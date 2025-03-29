@@ -15,7 +15,7 @@ bot = Bot(token=config.tg_bot.token)
 dp = Dispatcher()
 
 async def main():    
-    logger.info("Starting bot...")
+    logger.critical("Starting bot...")
     dp.include_router(router)
     await dp.start_polling(bot)
 

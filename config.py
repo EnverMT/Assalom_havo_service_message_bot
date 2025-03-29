@@ -3,6 +3,10 @@ from environs import Env
 
 
 @dataclass
+class EnvConfig:
+    mode: str  
+
+@dataclass
 class TgBot:
     token: str  
 
@@ -21,6 +25,7 @@ class Config:
     tg_bot: TgBot    
     log_group: LogGroup
     obs_group: ObsGroup
+    env_mode: EnvConfig
 
 
 def load_config(path: str = None):
@@ -37,5 +42,9 @@ def load_config(path: str = None):
         ),
         obs_group=ObsGroup(
             id=env.str("OBS_GROUP_ID")            
+        ),
+        env_mode=EnvConfig(
+            mode=env.str("ENV_MODE")            
         )        
+
     )

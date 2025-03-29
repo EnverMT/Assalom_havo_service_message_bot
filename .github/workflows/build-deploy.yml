@@ -1,0 +1,27 @@
+name: Build and Deploy Code
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    steps:
+      - name: pulling git repo
+        uses: actions/checkout@v2
+
+      - name: deploy to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.HOST}}
+          username: ${{secrets.LOGIN}}
+          key: ${{secrets.KEY}}
+          script: |
+            cd tgbots/Assalom_havo_service_message_bot
+            git pull            
+            sudo systemctl restart Assalom_havo_service_message_bot.service
