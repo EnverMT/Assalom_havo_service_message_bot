@@ -1,0 +1,13 @@
+[Unit]
+Description=Assalom_havo_service_message_bot
+After=network.target
+
+[Service]
+User=ubuntu
+Type=simple
+WorkingDirectory=/home/ubuntu/tgbots/Assalom_havo_service_message_bot
+ExecStart=/home/ubuntu/tgbots/Assalom_havo_service_message_bot/venv/bin/python3 /home/ubuntu/tgbots/Assalom_havo_service_message_bot/main.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
