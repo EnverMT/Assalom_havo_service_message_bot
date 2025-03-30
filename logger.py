@@ -13,4 +13,4 @@ if env_config.env_mode.mode == "development":
 logging.basicConfig(level=level, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
-logger.critical("Logger initialized in %s mode", logging.getLevelName(level))
+logger.critical("Logger initialized in level: %s", logging.getLevelName(level))
