@@ -5,20 +5,25 @@ from logger import logger
 from handler import router as handler_router
 
 
-router = Router()
-router.include_router(handler_router)
+class BotApp:
+    def __init__(self, config_path: str):
+        self.config = load_config(config_path)
+        self.bot = Bot(token=self.config.tg_bot.token)
+        self.dp = Dispatcher()
+        self.router = Router()
+        self._setup_routes()
 
-config = load_config(".env")
+    def _setup_routes(self):
+        """Include all routers."""
+        self.router.include_router(handler_router)
+        self.dp.include_router(self.router)
 
-bot = Bot(token=config.tg_bot.token)
-dp = Dispatcher()
-
-
-async def main():
-    logger.critical("Starting bot...")
-    dp.include_router(router)
-    await dp.start_polling(bot)
+    async def start(self):
+        """Start the bot."""
+        logger.critical("Starting bot...")
+        await self.dp.start_polling(self.bot)
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    app = BotApp(".env")
+    asyncio.run(app.start())
