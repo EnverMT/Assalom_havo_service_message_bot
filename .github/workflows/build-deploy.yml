@@ -21,6 +21,7 @@ jobs:
           host: ${{secrets.HOST}}
           username: ${{secrets.LOGIN}}
           key: ${{secrets.KEY}}
+          port: ${{secrets.PORT}}
           script: |
             cd tgbots/Assalom_havo_service_message_bot
             git pull            
