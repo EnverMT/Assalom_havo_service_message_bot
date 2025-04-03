@@ -26,7 +26,7 @@ async def log_user_kicked(event: ChatMemberUpdated):
     new_member_url = f"<a href='tg://user?id={new_member.id}'>{new_member.first_name}</a>"
 
     text = f"User kicked: {new_member_url} (ID:<code>{new_member.id}</code>)\n"
-    text += f"Banned by: {kicker_url} (ID:<code>{kicker.id}</code>)\n"
+    text += f"Banned by: {kicker_url}\n"
 
     await event.bot.send_message(
         chat_id=config.log_group.id,
