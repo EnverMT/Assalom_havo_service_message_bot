@@ -6,7 +6,7 @@ After=network.target
 User=ubuntu
 Type=simple
 WorkingDirectory=/home/ubuntu/tgbots/Assalom_havo_service_message_bot
-ExecStart=/home/ubuntu/tgbots/Assalom_havo_service_message_bot/venv/bin/python3 /home/ubuntu/tgbots/Assalom_havo_service_message_bot/main.py
+ExecStart=/home/ubuntu/tgbots/Assalom_havo_service_message_bot/.venv/bin/python3 /home/ubuntu/tgbots/Assalom_havo_service_message_bot/main.py
 Restart=always
 
 [Install]
