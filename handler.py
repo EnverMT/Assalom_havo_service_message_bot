@@ -6,14 +6,25 @@ from logger import logger
 
 config = load_config(".env")
 router = Router()
+# router.message.filter(F.chat.id == config.obs_group.id)
 
 
 @router.message(F.new_chat_members | F.left_chat_member)
-async def delete_service_message(message):
+async def delete_service_message(message):    
     try:
         await message.delete()
     except Exception as e:
         logger.error(f"Error deleting service message: {e}")
+
+
+@router.message(F.text.regexp(r'(https?://\S+)'))
+async def delete_message_with_link(message: Message):    
+    print(message.model_dump_json())
+    try:
+        await message.delete()
+        logger.info(f"Deleted message with link from user {message.from_user.id}")
+    except Exception as e:
+        logger.error(f"Error deleting message with link: {e}")
 
 
 @router.chat_member(ChatMemberUpdatedFilter(member_status_changed=IS_MEMBER >> KICKED))
@@ -70,3 +81,8 @@ async def log_approved_join_request(event: ChatMemberUpdated):
         parse_mode="HTML",
         disable_web_page_preview=True,
     )
+
+
+@router.message(F.text == "/healthcheck")
+async def send_healthcheck_message(message: Message):
+    await message.answer("Bot is running smoothly!")
