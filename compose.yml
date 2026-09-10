@@ -1,8 +1,6 @@
 services:
   telegram-bot-assalom-havo-service:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/envermt/assalom_havo_service_message_bot:latest
     container_name: assalom_havo_service_telegram_bot
     restart: unless-stopped
     env_file:
