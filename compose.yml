@@ -1,0 +1,14 @@
+services:
+  telegram-bot-assalom-havo-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: assalom_havo_service_telegram_bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      BOT_TOKEN: "${BOT_TOKEN}"
+      OBS_GROUP_ID: "${OBS_GROUP_ID}"
+      LOG_GROUP_ID: "${LOG_GROUP_ID}"
+      LOG_GROUP_THREAD_ID: "${LOG_GROUP_THREAD_ID}"
