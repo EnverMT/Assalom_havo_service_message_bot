@@ -1,12 +1,46 @@
 services:
   telegram-bot-assalom-havo-service:
     image: ghcr.io/envermt/assalom_havo_service_message_bot:latest
-    container_name: assalom_havo_service_telegram_bot
-    restart: unless-stopped
-    env_file:
-      - .env
     environment:
       BOT_TOKEN: "${BOT_TOKEN}"
       OBS_GROUP_ID: "${OBS_GROUP_ID}"
       LOG_GROUP_ID: "${LOG_GROUP_ID}"
       LOG_GROUP_THREAD_ID: "${LOG_GROUP_THREAD_ID}"
+      ENV_MODE: "${ENV_MODE:-production}"
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 5s
+        order: stop-first
+        failure_action: rollback
+      rollback_config:
+        parallelism: 1
+        delay: 5s
+        order: stop-first
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 256M
+        reservations:
+          cpus: "0.10"
+          memory: 64M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - bot-network
+
+networks:
+  bot-network:
+    driver: overlay
+    attachable: true
+
